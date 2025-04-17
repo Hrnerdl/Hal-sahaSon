@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halısaha Takım Kurma</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container" id="mainPage">
+        <h1 class="text-center mb-4">Halısaha Takım Kurma Programı</h1>
+        <div class="row">
+            <!-- Oyuncu Ekleme Formu -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Oyuncu Ekle / Düzenle</h5>
+                        <div class="mb-3">
+                            <input type="text" id="name" class="form-control" placeholder="Ad Soyad">
+                        </div>
+                        <div class="mb-3">
+                            <select id="position" class="form-select">
+                                <option value="" selected>Standart mevki seçin</option>
+                                <option value="goalkeeper">Kaleci</option>
+                                <option value="defender">Stoper</option>
+                                <option value="midfielder">Orta Saha</option>
+                                <option value="forward">Forvet</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" id="goalkeeperSkill" class="form-control" placeholder="Kalecilik (0-10)" min="0" max="10">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" id="defenderSkill" class="form-control" placeholder="Stoper (0-10)" min="0" max="10">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" id="midfielderSkill" class="form-control" placeholder="Orta Saha (0-10)" min="0" max="10">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" id="forwardSkill" class="form-control" placeholder="Forvet (0-10)" min="0" max="10">
+                        </div>
+                        <div class="mb-3">
+                            <label for="matchDate" class="form-label">Halı Saha Tarihi</label>
+                            <input type="date" id="matchDate" class="form-control">
+                        </div>
+                        <button class="btn btn-primary w-100 mb-2" id="addPlayerButton">Oyuncu Ekle / Güncelle</button>
+                        <button class="btn btn-success w-100" id="createTeamsButton">Takımları Oluştur</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Oyuncu Listesi -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Oyuncular</h5>
+                        <div id="players" class="list-group">
+                            <!-- Oyuncular burada listelenecek -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Takım Listesi -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Takımlar</h5>
+                        <div id="teams">
+                            <!-- Takımlar burada listelenecek -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kaydedilen Veriler -->
+        <div class="saved-data">
+            <h3 class="text-center">Kaydedilen Veriler</h3>
+            <div id="savedData" class="list-group">
+                <!-- Kaydedilen veriler burada listelenecek -->
+            </div>
+            <div class="text-center mt-3">
+                <button class="btn btn-info" id="goToMatchResultButton">Maç Sonu</button>
+                <button class="btn btn-danger" id="deleteSelectedDataButton">Seçili Veriyi Sil</button>
+                <button class="btn btn-secondary" id="downloadPDFButton">PDF Olarak İndir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maç Sonu Sayfası -->
+    <div class="container hidden" id="matchResultPage">
+        <h1 class="text-center mb-4">Maç Sonucu</h1>
+        <div id="matchResultContent">
+            <!-- Oyuncu ve takım listesi burada görünecek -->
+        </div>
+        <div class="text-center mt-3">
+            <button class="btn btn-primary" id="saveMatchResultButton">Kaydet</button>
+            <button class="btn btn-secondary" id="goBackToMainButton">Geri</button>
+        </div>
+        <div id="resultTables" class="match-result-table">
+            <h3>Gol Krallığı</h3>
+            <table class="table table-striped" id="goalTable">
+                <thead>
+                    <tr>
+                        <th>Oyuncu</th>
+                        <th>Gol</th>
+                        <th>Düzenle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Gol krallığı verileri burada görünecek -->
+                </tbody>
+            </table>
+            <h3>Asist Krallığı</h3>
+            <table class="table table-striped" id="assistTable">
+                <thead>
+                    <tr>
+                        <th>Oyuncu</th>
+                        <th>Asist</th>
+                        <th>Düzenle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Asist krallığı verileri burada görünecek -->
+                </tbody>
+            </table>
+            <h3>Ortalama Puan</h3>
+            <table class="table table-striped" id="averageTable">
+                <thead>
+                    <tr>
+                        <th>Oyuncu</th>
+                        <th>Ortalama Puan</th>
+                        <th>Düzenle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ortalama puan verileri burada görünecek -->
+                </tbody>
+            </table>
+        </div>
+        <!-- Kaydedilen Maç Sonuçları -->
+        <div class="saved-data">
+            <h3 class="text-center mt-4">Kaydedilen Maç Sonuçları</h3>
+            <div id="savedMatchResults" class="list-group">
+                <!-- Kaydedilen maç sonuçları burada görünecek -->
+            </div>
+            <div class="text-center mt-3">
+                <button class="btn btn-secondary" id="downloadMatchResultPDFButton">PDF Olarak İndir</button>
+                <button class="btn btn-danger" id="deleteSavedMatchResultButton">Seçili Sonucu Sil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
