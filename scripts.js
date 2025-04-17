@@ -186,9 +186,12 @@ function downloadSelectedPDF() {
         alert("Lütfen bir kayıt seçin.");
         return;
     }
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    const data = savedData[selectedDataIndex];
+    const { jsPDF } = window.jspdf || {}; // Eğer undefined ise boş obje döner
+	if (!jsPDF) {
+    console.error("jsPDF yüklenemedi. Lütfen jsPDF kütüphanesinin doğru şekilde yüklendiğinden emin olun.");
+    return;
+}
+const doc = new jsPDF();
 
     let y = 10;
 
