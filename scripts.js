@@ -186,32 +186,76 @@ function downloadSelectedPDF() {
         alert("Lütfen bir kayıt seçin.");
         return;
     }
-    const { jsPDF } = window.jspdf || {}; // Eğer undefined ise boş obje döner
-	if (!jsPDF) {
-    console.error("jsPDF yüklenemedi. Lütfen jsPDF kütüphanesinin doğru şekilde yüklendiğinden emin olun.");
-    return;
-}
-const doc = new jsPDF();
 
+    const data = savedData[selectedDataIndex]; // <-- EKLENDİ
+    const { jsPDF } = window.jspdf || {};
+    if (!jsPDF) {
+        console.error("jsPDF yüklenemedi. Lütfen jsPDF kütüphanesinin doğru şekilde yüklendiğinden emin olun.");
+        return;
+    }
+
+    const doc = new jsPDF();
     let y = 10;
 
+    // Başlık kısmı
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.setTextColor(255, 0, 0); // Kırmızı başlık
+    doc.text(`Halı Saha Takım Bilgileri`, 10, y); // Başlık
+    y += 20;
+
+    // Tarih ve Oluşturma bilgileri
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(0, 0, 0); // Siyah renk
     doc.text(`Tarih: ${data.date}`, 10, y);
     y += 10;
     doc.text(`Oluşturma: ${data.timestamp}`, 10, y);
-    y += 10;
+    y += 15;
 
+    // Sayfa Kenarları
+    doc.setDrawColor(0); // Sınır rengi
+    doc.setLineWidth(1); // Çizgi kalınlığı
+    doc.rect(5, 5, 200, 287); // Sayfa kenarlarını çiziyoruz
+
+    // Takımların bilgilerini yazma
     data.teams.forEach((team, teamIndex) => {
-        doc.text(`Takım ${teamIndex + 1}:`, 10, y);
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Takım ${teamIndex + 1}:`, 10, y); // Takım başlığı
         y += 10;
-        team.forEach((player, playerIndex) => {
-            doc.text(`${playerIndex + 1}. ${player.name} (${player.position})`, 20, y);
-            y += 10;
-        });
+        
+        // Tablo başlıkları
+        doc.text("No", 10, y);
+        doc.text("Oyuncu", 20, y);
+        doc.text("Mevki", 100, y);
         y += 5;
+        
+        // Çizgi
+        doc.line(10, y, 200, y);
+        y += 5;
+        
+        // Tablo satırları
+        team.forEach((player, playerIndex) => {
+            doc.text(`${playerIndex + 1}`, 10, y);
+            doc.text(player.name, 20, y);
+            doc.text(player.position, 100, y);
+            y += 8;
+        });
+
+        y += 10; // Her takım arasına boşluk
     });
 
+    // Sayfa numarası ekleme
+    const totalPages = doc.internal.getNumberOfPages();
+    doc.setFontSize(10);
+    doc.text(`Sayfa ${doc.internal.getCurrentPageInfo().pageNumber} / ${totalPages}`, 180, 290);
+
+    // PDF'i kaydetme
     doc.save(`halisaha_takim_${data.date}.pdf`);
 }
+
+
 
 // Maç sonucu ekranına geçiş
 function goToMatchResult() {
