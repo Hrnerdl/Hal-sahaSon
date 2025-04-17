@@ -201,7 +201,7 @@ function downloadSelectedPDF() {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(18);
     doc.setTextColor(255, 0, 0); // Kırmızı başlık
-    doc.text(`Halı Saha Takım Bilgileri`, 10, y); // Başlık
+    doc.text(`Hali Saha Takim Bilgileri`, 10, y); // Başlık
     y += 20;
 
     // Tarih ve Oluşturma bilgileri
@@ -210,7 +210,7 @@ function downloadSelectedPDF() {
     doc.setTextColor(0, 0, 0); // Siyah renk
     doc.text(`Tarih: ${data.date}`, 10, y);
     y += 10;
-    doc.text(`Oluşturma: ${data.timestamp}`, 10, y);
+    doc.text(`Olusturma: ${data.timestamp}`, 10, y);
     y += 15;
 
     // Sayfa Kenarları
@@ -222,7 +222,7 @@ function downloadSelectedPDF() {
     data.teams.forEach((team, teamIndex) => {
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
-        doc.text(`Takım ${teamIndex + 1}:`, 10, y); // Takım başlığı
+        doc.text(`Takim ${teamIndex + 1}:`, 10, y); // Takım başlığı
         y += 10;
         
         // Tablo başlıkları
